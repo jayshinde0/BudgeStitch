@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    .containeredit {
+        padding: 100px;
+    }
+
+    .btnedithome {
+        background-color: #000907; /* Black background for buttons */
+        color: white; /* White text for buttons */
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-size: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .btnedithome:hover {
+        background-color: #16A085; /* Teal background on hover */
+        color: white; /* Maintain white text */
+        box-shadow: 4px 4px 15px rgba(26, 188, 156, 0.5); /* Shadow effect on hover */
+    }
+
+    .textedit {
+        color: #34495E; /* Dark gray text */
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* General section styling */
+    .text-dark {
+        color: #34495E; /* Text color */
+        font-size: 18px; /* Font size */
+    }
+
+    /* Form styling */
+    .form-label {
+        color: #000907; /* Dark color for labels */
+    }
+
+    /* Alert styles */
+    .alert {
+        border-radius: 10px; /* Rounded corners for alerts */
+    }
+</style>
+
+<div class="container-fluid p-5">
+    <div class="container">
+        <div class="row d-flex justify-content-center ">
+            <div class="col-8 bg-body rounded-3 shadow-sm p-4">
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="float: right;"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+        
+                {% if form.errors %}
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            {{ error }} <br>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form action="" method="post" id="myForm" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>SignUp Form</legend>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="username" class="form-label">{{ form.username.label_tag }}</label>
+                                {{ form.username }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="first_name" class="form-label">{{ form.first_name.label_tag }}</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-6">
+                                <label for="last_name" class="form-label">{{ form.last_name.label_tag }}</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="email" class="form-label">{{ form.email.label_tag }}</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="col-6">
+                                <label for="contact" class="form-label">{{ form.contact.label_tag }}</label>
+                                {{ form.contact }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="gender" class="form-label">{{ form.gender.label_tag }}</label>
+                                {{ form.gender }}
+                            </div>
+                            <div class="col-6">
+                                <label for="dob" class="form-label">{{ form.dob.label_tag }}</label>
+                                {{ form.dob }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="age" class="form-label">{{ form.age.label_tag }}</label>
+                                {{ form.age }}
+                            </div>
+                            <div class="col-6">
+                                <label for="profilepic" class="form-label">{{ form.profilepic.label_tag }}</label>
+                                {{ form.profilepic }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                <label for="address" class="form-label">{{ form.address.label_tag }}</label>
+                                {{ form.address }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-4">
+                                <label for="addzipcode" class="form-label">{{ form.addzipcode.label_tag }}</label>
+                                {{ form.addzipcode }}
+                            </div>
+                            <div class="col-4">
+                                <label for="addcity" class="form-label">{{ form.addcity.label_tag }}</label>
+                                {{ form.addcity }}
+                            </div>
+                            <div class="col-4">
+                                <label for="addstate" class="form-label">{{ form.addstate.label_tag }}</label>
+                                {{ form.addstate }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="user_type" class="form-label">{{ form.user_type.label_tag }}</label>
+                                {{ form.user_type }}
+                            </div>
+                            <div class="col-6">
+                                <div id="experience-field" style="display: none;">
+                                    <label for="experience" class="form-label">{{ form.experience.label_tag }}</label>
+                                    {{ form.experience }}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="password1" class="form-label">{{ form.password1.label_tag }}</label>
+                                {{ form.password1 }}
+                            </div>
+                            <div class="col-6">
+                                <label for="password2" class="form-label">{{ form.password2.label_tag }}</label>
+                                {{ form.password2 }}
+                            </div>
+                        </div>
+                        <hr>
+                        <input type="submit" class="btn btnedithome" value="Create Account">
+                        <input type="reset" value="Clear" class="btn btn-outline-danger" style="float: right;">
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

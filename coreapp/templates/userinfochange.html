@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<div class="container-fluid  p-5" >
+    <div class="text-center">
+        <h1 class="display-3">
+            Edit your Profile
+        </h1>
+        <hr class="bg-dark">
+    </div>
+    <div class="container ">
+
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 bg-body rounded-3  shadow-lg p-4 ">
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="float: right;"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+        
+                {% if form.errors %}
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                {% for field in form %}
+                        {% for error in field.errors %}
+                            {{ error }} <br>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                            {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <h3>Edit Profile</h3>
+                <form action="" method="post" id="myForm" novalidate enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table class="table table-borderless">
+                        {% for fm in form %}
+                            <tr>
+                                <td>{{ fm.label_tag }} </td>
+                                <td>{{ fm }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                    <input type="submit" class="btn btn-primary" value="Edit">
+                    <input type="reset" value="Clear" class="btn btn-outline-danger" style="float: right;">
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

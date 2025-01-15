@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+
+<div class="container-fluid py-5 ultralightred">
+  <!-- <div class="container">
+      <center><h3 class="display-4  lh-1 text-body-emphasis" style="margin-bottom:35px"> Our <strong>Tailors and Bussiness Patners</strong> </h3></center>
+      <ul>
+          {% for tailor in tailors %}
+              <a href="/placeorder/{{ tailor.id }}">
+                <li>{{ tailor.username }} - {{ tailor.gender }} - {{ tailor.age }} years old</li>
+              </a>
+              
+          {% empty %}
+              <li>No tailors found.</li>
+          {% endfor %}
+      </ul>
+      <div class="row">
+        {% for tailor in tailors %}
+        <div class="col-sm-4">
+          <a href="/placeorder/{{tailor.id}}" style="text-decoration: none;">
+            <div class="card m-2 p-2">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8AJM9wkP__z2M-hovSAWcTb_9XJ6smy3NKw&s" alt="Tailor Profile Pic" class="card-img-top" height="200px">
+              <h3 class="card-title">{{tailor.username}}</h3>
+              <p class="text-body-secondary">
+                Experience: <strong>{{ tailor.experience }} Years</strong><br>
+                Gender: <strong>{{ tailor.get_gender_display }}</strong><br>
+                Age: <strong>{{ tailor.age }}</strong> <br>
+              </p>
+            </div>
+          </a>
+        </div>
+        {% empty %}
+            <p>No tailors found.</p>
+        {% endfor %}
+      </div>
+
+    </div> -->
+    <div class="text-center">
+      <h1 class="display-3 textedit">
+          Our Designers and Tailors
+      </h1>
+      <hr class="bg-dark">
+    </div>
+  <div class="container rounded-3  shadow-sm p-5 bg-body-secondary">
+    <div class="d-flex justify-content-center">
+      <form class="d-flex w-100">
+        <input class="form-control me-sm-2" type="search" name="search" placeholder="Search Designers and Tailors"
+          value="{{ search_query }}">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+    <div class="mt-2">
+      <a href="?filter=near_me" class="btn btn-secondary my-sm-0">Near Me</a>
+      <a href="?filter=top_rated" class="btn btn-secondary my-sm-0">Top Rated</a>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+      {% for tailor in tailors %}
+      <div class="col-4 text-dark">
+        <div class="card">
+          <div class="d-flex justify-content-center">
+            {% if tailor.profilepic %}
+            <img src="{{ tailor.profilepic.url }}" alt="Profile Img" class="profile-img">
+            {% else %}
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8AJM9wkP__z2M-hovSAWcTb_9XJ6smy3NKw&s"
+              alt="Profile Img" class="profile-img">
+            {% endif %}
+          </div>
+
+          <h5 class="text-dark">{{tailor.first_name}} {{tailor.last_name}}</h5>
+          <!-- <p class="text-dark">{{tailor.biodis}}</p> -->
+          <!-- <div class="row text-cente text-dark">
+            <div class="col-sm-4 text-center">
+              Ratings <span class="badge rounded-pill bg-success" style="margin-left: 10px;">5</span>
+            </div>
+            <div class="col-sm-4">
+              <p>Experience<span class="badge rounded-pill bg-success" style="margin-left: 10px;">{{ tailor.experience }} Years</span></p>
+            </div>
+            <div class="col-sm-4">
+              <p>Followers<span class="badge rounded-pill bg-success" style="margin-left: 10px;">115</span></p>
+            </div>
+          </div> -->
+          <div class="d-flex justify-content-between mt-2">
+            <!-- <a href="/placeorder/{{ tailor.id }}" class="btn btn-outline-primary w-50">View Profile</a> -->
+            <a href="/viewprofile/{{ tailor.id }}" class="btn btn-outline-dark">View Profile</a>
+            {% if request.user.is_authenticated %}
+            <a href="/placeorder/{{ tailor.id }}" class="btn btn-outline-dark">Place Order</a>
+            {% endif %}
+            
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No tailors found.</p>
+      {% endfor %}
+
+    </div>
+    <div>
+      <div class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+          {% if tailors.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ tailors.previous_page_number }}">Previous</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo; First</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Previous</a>
+          </li>
+          {% endif %}
+
+          {% for num in tailors.paginator.page_range %}
+          {% if num == tailors.number %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ num }}</a>
+          </li>
+          {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+
+          {% if tailors.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ tailors.next_page_number }}">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ tailors.paginator.num_pages }}">Last &raquo;</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#">&raquo; Last</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

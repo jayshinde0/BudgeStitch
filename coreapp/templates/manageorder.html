@@ -1,0 +1,114 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- tailor_dashboard.html -->
+<div class="container-fluid p-5 " >
+
+    
+    <div class="container bg-body rounded-3  shadow-lg p-4">
+        <a href="/tailor_dashboard" class="btn btn-outline-dark mb-3">Go Back</a>
+        <li class="text-dark list-unstyled">Order ID: <strong>{{ order.id }}</strong></li>
+        <li class="text-dark list-unstyled">Order from: <strong>{{ order.userfullname }} - {{ order.useremail }}</strong></li>
+        <hr>
+        <div class="">
+            <h2 class="text-center">Order Detail</h2>
+            <div class="row text-dark">
+                <div class="col-md-6">
+                    <p class="text-center">Order Description</p>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Order of: <strong>{{ order.ordtitle }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Order From (Client Name) : <strong>{{ order.userfullname }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Client Email: <strong>{{ order.useremail }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Client Contact: <strong>{{ order.usercontact }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Budget: <strong>{{ order.budget }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Ordered on: <strong>{{ order.created_at }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Delivery Expected (Deadline): <strong>{{ order.deliverydate }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Order Status: <strong>{{ order.orderstatus }}</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-center">
+                        Reference and Measurements
+                    </p>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-center align-items-center">
+                            {% if order.design_reference %}
+                            <div id="carouselExample" class="carousel slide">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active ">
+                                        <a href="{{ order.design_reference.url }}">
+                                            <img src="{{ order.design_reference.url }}" alt="Desing Reference"
+                                                class="d-block w-100 rounded" title="Design Reference" style="height: 300px;">
+                                        </a>
+                                    </div>  
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                            {% else %}
+                            No Reference Image Uploaded
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Boday Size: <strong>{{ order.body_size }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Cloth Tye: <strong>{{ order.cloth_type }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Color: <strong>{{ order.color }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Discription: <strong>{{ order.additional_notes }}</strong>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        
+        </div>
+        <hr>
+        <div class="d-flex">
+        {% if order.orderstatus == 'undecided' %}
+            <a href="/orderstatus/{{ order.id }}/true" class="btn btn-success me-auto">Accept</a>
+            <a href="/orderstatus/{{ order.id }}/false" class="btn btn-outline-danger ms-auto">Declines</a>
+        {% endif %}
+        {% if order.orderstatus == 'pending' %}
+            <a href="/orderstatus/{{ order.id }}/comp" class="btn btn-success me-auto">Order Completed</a>
+            <a href="/orderstatus/{{ order.id }}/false" class="btn btn-outline-danger ms-auto" style="float: right;">Request Cancelation</a>
+        {% endif %}
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

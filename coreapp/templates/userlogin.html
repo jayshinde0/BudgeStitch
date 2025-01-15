@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<style>
+    .custom-button {
+        background-color: #000000; /* Black background */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Add padding */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer cursor */
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    }
+
+    .custom-button:hover {
+        background-color: #16A085; /* Teal color on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+        transform: translateY(-3px); /* Move up on hover */
+    }
+</style>
+
+<div class="container-fluid p-5">
+    <div class="text-center">
+        <h1 class="display-3 textedit">
+            Log In to Your Account
+        </h1>
+        <hr class="bg-dark">
+    </div>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 bg-body rounded-3 shadow-sm p-4">
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="float: right;"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if form.errors %}
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            {{ error }} <br>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>LogIn Form</legend>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="username" class="form-label">{{ form.username.label_tag }}</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="col-6">
+                                <label for="password" class="form-label">{{ form.password.label_tag }}</label>
+                                {{ form.password }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <hr>
+                    <input type="submit" class="custom-button" value="Log-In Account">
+                    <input type="reset" value="Clear" class="btn btn-outline-danger" style="float: right;">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

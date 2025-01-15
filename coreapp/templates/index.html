@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    /* General Styling */
+    .containeredit {
+        padding: 80px 0;
+    }
+
+    .textedit {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        color: #333; /* Modern Dark Gray for Titles */
+    }
+
+    .text-dark {
+        color: #555; /* Subtle text color */
+    }
+
+    /* Buttons */
+    .btnedithome {
+        border-radius: 50px;
+        padding: 10px 30px;
+        background-color: #000000; /* Primary color for buttons */
+        color: white;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btnedithome:hover {
+        background-color: #16A085;
+        /* Darker shade on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+        transform: translateY(-3px);
+    }
+
+    /* Image Styling */
+    .indeximg1, .indeximg2 {
+        border-radius: 20px; /* Slightly rounded corners for a modern look */
+        background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1); /* Light shadow for modern feel */
+        overflow: hidden;
+    }
+
+    /* Background Image */
+  
+
+    /* Responsiveness */
+    @media only screen and (max-width: 768px) {
+        .display-4 {
+            font-size: 2rem;
+        }
+
+        .btnedithome {
+            padding: 8px 20px;
+        }
+    }
+
+    .image-container img:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+</style>
+
+<!-- First Section -->
+<div class="container-fluid containeredit">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 mb-4">
+                <div class="image-container indeximg1">
+                    <img src="{% static 'image/onlinebuying.png' %}" alt="homeimg1" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <h1 class="display-4 textedit">Your Style, Your Tailor: Just a Click Away!</h1>
+                <p class="text-dark">"Discover the perfect blend of convenience and craftsmanship with custom-made clothing tailored just for you. At the click of a button, connect with skilled local tailors who are ready to transform your unique style into beautifully crafted outfits, designed to fit your personality and preferences."</p>
+                <div class="d-flex justify-content-end">
+                    {% if request.user.is_authenticated %}
+                    <a href="/userprofile" class="btn btnedithome">View Profile</a>
+                    {% else %}
+                    <a href="/userlogin" class="btn btnedithome m-2">Log In</a>
+                    <a href="/order" class="btn btnedithome m-2">Buy Now</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Second Section -->
+<div class="container-fluid containeredit secondcontainerbg">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 text-start">
+                <h1 class="display-4 textedit">Showcase Your Craft: Join Our Community of Skilled Tailors!</h1>
+                <p class="text-dark">"Expand your reach and connect with clients seeking expertly crafted, custom-made clothing. Join our platform to showcase your skills, grow your business, and bring your unique creations to life for a wider audience!"</p>
+                <div class="d-flex justify-content-start">
+                    {% if request.user.is_authenticated %}
+                    <a href="/order" class="btn btnedithome m-2">Buy Now</a>
+                    {% else %}
+                    <a href="/order" class="btn btnedithome m-2">Our Designers/Tailors</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="image-container indeximg2">
+                    <img src="{% static 'image/mentailor-transformed.png' %}" alt="homeimg2" class="img-fluid" width="100%">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

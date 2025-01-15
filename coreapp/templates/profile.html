@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    .profbackground {
+        background-color: rgb(255, 255, 255, 0.5);
+    }
+
+    .profbackground1 {
+        background-color: rgb(255, 255, 255, 0.5);
+    }
+
+    #map {
+        height: 400px;
+        width: 700px;
+    }
+
+    .divprof {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 1px;
+        border-radius: 50%;
+        box-shadow: 0px 4px 8px #da847b;
+    }
+
+    .custom-button {
+        border-radius: 40px;
+        background-color: #000000; /* Black background */
+        color: white; /* Text color */
+        padding: 10px 20px; /* Add padding */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer cursor */
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    }
+
+    .custom-button:hover {
+        background-color: #16A085; /* Teal color on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+        transform: translateY(-8px); /* Move up on hover */
+    }
+</style>
+<script>
+    function initMap() {
+        const location = { lat: -34.397, lng: 150.644 }; // Replace with your desired coordinates
+
+        // Create the map
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 8,
+            center: location,
+        });
+
+        // Add a marker at the location
+        const marker = new google.maps.Marker({
+            position: location,
+            map: map,
+        });
+    }
+</script>
+<div class="container-fluid p-5">
+    <div class="container rounded-4 profbackground p-4" style="width: 50%;">
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                    style="float: right;"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                {% if request.user.profilepic %}
+                <div class="d-flex justify-content-center">
+                    <div class="divprof">
+                        <img src="{{ request.user.profilepic.url }}" alt="Profile Background"
+                        style="border-radius:50%;" width="200px" height="200px">
+                    </div>
+                </div>
+                <hr>
+                {% endif %}
+                <h1>Hi, <strong>{{ request.user.username }}</strong></h1>
+                <h5>Bio:</h5>
+                <p>{{ request.user.biodis}}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="text-center">Personal Details</p>
+                <ul class="list-group profbackground">
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Full Name: <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Gender: <strong>{{ request.user.get_gender_display }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        City: <strong>{{ request.user.addcity }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Date Of Birth: <strong>{{ request.user.dob }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Age: <strong>{{ request.user.age }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Email: <strong>{{ request.user.email }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Contact: <strong>{{ request.user.contact }}</strong>
+                    </li>
+                    {% if request.user.user_type == 'tailor' %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center profbackground1">
+                        Experience: <strong>{{ request.user.experience }} Years</strong>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+        <div class="d-flex">
+            <div class="me-auto">
+                <a href="/edituserinfo/" class="custom-button">Edit Profile</a>
+                <a href="/changepass/" class="custom-button">Change Password</a>
+            </div>
+
+            <a href="/userlogout/" class="custom-button">Logout</a>
+        </div>
+    </div>
+
+    {% if request.user.user_type == 'client' %}
+    <div class="container mt-3 ">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                My Order History
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                {% if orders %}
+                                <table class="table">
+                                    <th>Order Title</th>
+                                    <th>Tailor Name</th>
+                                    <th>Order Status</th>
+                                    {% for order in orders %}
+                                    <a href="/vieweditorder/{{ order.id }}">
+                                        <tr>
+                                            <td><a href="/vieweditorder/{{ order.id }}" class="text-decoration-none text-dark">{{order.ordtitle}}</a></td>
+                                            <td><a href="/vieweditorder/{{ order.id }}" class="text-decoration-none text-dark">{{order.tailorfullname }}</a></td>
+                                            <td class="text-{% if order.orderstatus == 'Completed' %}success 
+                                                                    {% elif order.orderstatus == 'Declined' %}danger 
+                                                                    {% elif order.orderstatus == 'pending' %}info
+                                                                    {% elif order.orderstatus == 'undecided' %}warning
+                                                                    {% endif %}">
+                                                {{ order.orderstatus }}
+                                            </td>
+                                        </tr>
+                                    </a>
+                                    {% endfor %}
+                                </table>
+                                {% else %}
+                                <p class="text-dark text-center">You have no Orders</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

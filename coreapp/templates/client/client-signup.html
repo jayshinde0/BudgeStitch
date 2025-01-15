@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<div class="text-center mt-3">
+    <h3 class="display-4  lh-1 text-body-emphasis" style="margin-bottom:35px"><strong>Client</strong> Sign-Up</h3>
+</div>
+
+<div class="container-fluid bg-secondary p-5">
+
+    <div class="container bg-body rounded-3  shadow-lg p-4" style="width: auto;">
+
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                    style="float: right;"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+            {% for error in field.errors %}
+            {{ error }} <br>
+            {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <form action="" method="post" id="myForm" novalidate>
+            {% csrf_token %}
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+                {% for fm in form %}
+                <label>{{ fm.label_tag }}</label>
+                {{ fm }}
+                {% endfor %}
+            </div>
+            <hr>
+            <input type="submit" class="btn" value="Login">
+            <input type="reset" value="Clear" class="btn" style="float: right;">
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

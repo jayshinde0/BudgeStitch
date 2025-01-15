@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container-fluid bg-body-secondary p-5">
+
+    <div class="container bg-body rounded-3  shadow-lg p-4">
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="float: right;"></button>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-8 col-lg-9">
+                <h1>Hi, <strong>{{ request.user.username }}</strong></h1>
+                <p class="text-body-secondary">
+                    Gender: <strong>{{ request.user.get_gender_display }}</strong><br>
+                    Date Of Birth: <strong>{{ request.user.dob }}</strong> <br>
+                    Age: <strong>{{ request.user.age }}</strong> <br>
+                </p>
+            </div>
+            {% if request.user.profilepic %}
+            <div class="col-md-4 col-lg-3">
+                <div>
+                    <img src="{{ request.user.profilepic.url }}" alt="Profile Background" class="rounded-3" style="float: right;" width="200px" height="200px">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <hr>
+        <div>
+            <a href="/userlogout/" class="btn btn-outline-danger">Logout</a>
+        </div>
+    </div>
+
+    {% if request.user.user_type == 'client' %}
+    <div class="container bg-body rounded-3  shadow-lg p-4 mt-3" style="width: auto;">
+        <h2>My Orders</h2>
+            <table class="table">
+                <th>Order</th>
+                <th>Tailor</th>
+                <th>Status</th>
+                {% for order in orders %}
+                    <a href="/vieweditorder/{{ order.id }}">
+                        <tr>
+                            <!-- Make each cell a clickable link instead of wrapping the entire row -->
+                            <td><a href="/vieweditorder/{{ order.id }}" class="text-decoration-none text-dark">{{ order.ordtitle }}</a></td>
+                            <td><a href="/vieweditorder/{{ order.id }}" class="text-decoration-none text-dark">{{ order.tailor.username }}</a></td>
+                            <td class="text-{% if order.orderstatus == 'Completed' %}success 
+                                            {% elif order.orderstatus == 'Declined' %}danger 
+                                            {% elif order.orderstatus == 'pending' %}info
+                                            {% elif order.orderstatus == 'undecided' %}warning
+                                            {% endif %}">
+                                {{ order.orderstatus }}
+                            </td>
+                        </tr>
+                    </a>
+                {% endfor %}
+            </table>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    .custom-button {
+    border-radius: 40px; /* Rounded corners */
+    background-color: #000000; /* Black background */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    text-decoration: none; /* Removes underline for anchor tags */
+}
+
+.custom-button:hover {
+    background-color: #16A085; /* Teal color on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+    transform: translateY(-3px); /* Move up on hover */
+}
+</style>
+
+<div class="container-fluid p-5">
+    <div class="text-center">
+        <h1 class="display-3 textedit">Place your Order</h1>
+        <hr>
+    </div>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 rounded-3 shadow-lg p-4 bg-body">
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="float: right;"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+        
+                {% if form.errors %}
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            {{ error }} <br>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <legend>Order Form</legend>
+                <p class="text-dark">Order Sending to Tailor: <a href="/viewprofile/{{ tailordetail.id }}" class="text-dark"><strong>{{ tailordetail.first_name }} {{ tailordetail.last_name }} - {{ tailordetail.email }}</strong></a></p>
+                <hr>
+                
+                <form action="" method="post" id="myForm" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <fieldset>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                <label for="ordtitle" class="form-label">{{ form.ordtitle.label_tag }}</label>
+                                {{ form.ordtitle }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="body_size" class="form-label">{{ form.body_size.label_tag }}</label>
+                                {{ form.body_size }}
+                            </div>
+                            <div class="col-6">
+                                <label for="cloth_type" class="form-label">{{ form.cloth_type.label_tag }}</label>
+                                {{ form.cloth_type }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="budget" class="form-label">{{ form.budget.label_tag }}</label>
+                                {{ form.budget }}
+                            </div>
+                            <div class="col-6">
+                                <label for="color" class="form-label">{{ form.color.label_tag }}</label>
+                                {{ form.color }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-1">
+                            <div class="col-6">
+                                <label for="design_reference" class="form-label">{{ form.design_reference.label_tag }}</label>
+                                {{ form.design_reference }}
+                            </div>
+                            <div class="col-6">
+                                <label for="deliverydate" class="form-label">{{ form.deliverydate.label_tag }}</label>
+                                {{ form.deliverydate }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                <label for="additional_notes" class="form-label">{{ form.additional_notes.label_tag }}</label>
+                                {{ form.additional_notes }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                <label for="clientaddress" class="form-label">{{ form.clientaddress.label_tag }}</label>
+                                {{ form.clientaddress }}
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-4">
+                                <label for="clientaddzipcode" class="form-label">{{ form.clientaddzipcode.label_tag }}</label>
+                                {{ form.clientaddzipcode }}
+                            </div>
+                            <div class="col-4">
+                                <label for="clientaddcity" class="form-label">{{ form.clientaddcity.label_tag }}</label>
+                                {{ form.clientaddcity }}
+                            </div>
+                            <div class="col-4">
+                                <label for="clientaddstate" class="form-label">{{ form.clientaddstate.label_tag }}</label>
+                                {{ form.clientaddstate }}
+                            </div>
+                        </div>
+                        <hr>
+                        <input type="submit" class="custom-button" value="Confirm Order"> <!-- Custom button class -->
+                        <input type="reset" value="Clear" class="btn btn-outline-danger" style="float: right;">
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

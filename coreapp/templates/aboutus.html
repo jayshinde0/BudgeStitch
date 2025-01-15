@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    .containeredit {
+        padding: 100px;
+    }
+
+    .btnedithome {
+        background-color: #000907;
+        color: white;
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-size: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .btnedithome:hover {
+        background-color: #16A085;
+        color: white;
+        box-shadow: 4px 4px 15px rgba(26, 188, 156, 0.5);
+    }
+
+    .secondcontainerbg {
+        background-image: url('/static/image/bgi4.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .aboutusimgedit {
+        border-radius: 60px 10px 60px 60px;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .aboutusimgedit1 {
+        border-radius: 10px 60px 60px 60px;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .textedit {
+        color: #34495E;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* General section styling */
+    .text-dark {
+        color: #34495E;
+        font-size: 18px;
+    }
+
+    /* Hover effect for images */
+    .image-container img:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+</style>
+
+<!-- First Section - Helping Business Succeed -->
+<div class="container-fluid containeredit">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-start">
+                <h1 class="display-3 textedit">Helping Businesses Succeed</h1>
+                <p class="text-dark">"Empowering local tailors and designers to grow and thrive by connecting them with clients who value quality and craftsmanship. Our platform helps you showcase your talent, attract more customers, and build lasting relationships for your business success."</p>
+                <div class="d-flex justify-content-start">
+                    <a href="/usersignup/" class="btn btnedithome m-2">Join Us Now!</a>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="image-container aboutusimgedit">
+                    <img src="{% static 'image/aboutus1.png' %}" alt="homeimg1" class="" width="650px" height="auto">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Second Section - Our Team -->
+<div class="container-fluid containeredit">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-center">
+                <!-- Added class me-4 to add margin between image and text -->
+                <div class="image-container aboutusimgedit1 me-5">
+                    <img src="{% static 'image/DeWatermark.gdfgai_1728625093022.png' %}" alt="homeimg2" class="" width="650px" height="auto">
+                </div>
+            </div>
+            <div class="col-md-6 text-start">
+                <h1 class="display-3 textedit">Meet Our Team</h1>
+                <p class="text-dark">"We are a passionate group of five second-year Computer Engineering students from KKWIEER, driven by a shared vision to innovate and solve real-world problems. Our diverse team, comprising three boys and two girls, brings together a range of technical skills and creativity."</p>
+                <p class="text-dark">"With a commitment to excellence, we aim to create a platform that not only connects clients with talented local tailors but also empowers businesses to grow and succeed."</p>
+                <div class="d-flex justify-content-end">
+                    <a href="#" class="btn btnedithome m-2">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Third Section - More About Us (New Addition) -->
+<div class="container-fluid containeredit">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-start">
+                <h1 class="display-3 textedit">Why Choose BudgeStitch?</h1>
+                <ul class="text-dark">
+                    <li>Local Tailors/Designers Empowerment</li>
+                    <li>Seamless Order Process for Clients</li>
+                    <li>Guaranteed Quality and Craftsmanship</li>
+                    <li>Easy and Secure Payment Options</li>
+                </ul>
+                <div class="d-flex justify-content-start">
+                    <a href="/aboutus/" class="btn btn-outline-dark btnedithome m-2">Learn More</a>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="image-container aboutusimgedit">
+                    <img src="{% static 'image/qualitycraft.jpg' %}" alt="qualitycraft" class="" width="650px" height="auto">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
