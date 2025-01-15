@@ -118,7 +118,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 **Jay Shinde**  
 **Swayam Dusing**
-[GitHub](https://github.com/jayshinde0) | [LinkedIn]([https://linkedin.com/in/jay-shinde](https://www.linkedin.com/in/jay-shinde-b5634325a/))
+---
+[GitHub](https://github.com/jayshinde0) | [LinkedIn](https://www.linkedin.com/in/jay-shinde-b5634325a/)
 
 ---
 
