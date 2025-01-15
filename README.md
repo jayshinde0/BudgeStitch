@@ -28,20 +28,6 @@ BudgeStitch is an innovative platform designed to connect local tailors with cus
 
 ---
 
-## 📂 Project Structure
-
-```
-BudgeStitch/
-├── templates/         # HTML templates
-├── static/            # CSS, JS, and images
-├── budgestitch/       # Main Django app
-├── db.sqlite3         # Database
-├── manage.py          # Django management script
-└── requirements.txt   # Dependencies
-```
-
----
-
 ## 💻 Installation
 
 1. **Clone the Repository:**
